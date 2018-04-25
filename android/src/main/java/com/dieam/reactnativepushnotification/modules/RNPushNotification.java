@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 public class RNPushNotification extends ReactContextBaseJavaModule implements ActivityEventListener {
     public static final String LOG_TAG = "RNPushNotification";// all logging should use this tag
 
@@ -114,7 +116,10 @@ public class RNPushNotification extends ReactContextBaseJavaModule implements Ac
         GCMService.putExtra("senderID", senderID);
         reactContext.startService(GCMService);
     }
-
+    @ReactMethod
+    public void subscribeToTopic(String topic) {
+        FirebaseMessaging.getInstance().subscribeToTopic(topic);
+    }
     @ReactMethod
     public void presentLocalNotification(ReadableMap details) {
         Bundle bundle = Arguments.toBundle(details);

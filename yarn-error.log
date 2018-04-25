@@ -1,0 +1,64 @@
+Arguments: 
+  /usr/local/Cellar/node/9.8.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js outdated
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/Users/caalcaz/Library/Android/sdk/tools:/Users/caalcaz/Library/Android/sdk/platform-tools:/Users/caalcaz/Library/Android/sdk/tools:/Users/caalcaz/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.8.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "react-native-push-notification",
+    "version": "3.0.3",
+    "description": "React Native Local and Remote Notifications",
+    "main": "index",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "react-component",
+      "react-native",
+      "ios",
+      "android",
+      "notifications",
+      "push",
+      "apns",
+      "gcm"
+    ],
+    "bugs": {
+      "url": "https://github.com/zo0r/react-native-push-notification/issues"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+ssh://git@github.com:zo0r/react-native-push-notification.git"
+    },
+    "peerDependencies": {
+      "react-native": ">=0.33"
+    },
+    "rnpm": {
+      "android": {
+        "packageInstance": "new ReactNativePushNotificationPackage()"
+      }
+    },
+    "author": "zo0r <http://zo0r.me>",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: No lockfile in this directory. Run `yarn install` to generate one.
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:89389:13
+      at <anonymous>
