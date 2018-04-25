@@ -5,7 +5,7 @@ This Library was cloned from the original @Zo0r/react-native-push-notification. 
 ## Thank you Zo0r for all of your hard work in creating this awesome library
 
 ## Installation
-`npm install --save react-native-push-notification`
+`npm install --save react-native-push-notification` or `yarn add react-native-push-notification`
 
 `react-native link`
 
@@ -26,13 +26,13 @@ The component uses PushNotificationIOS for the iOS part.
 
 ## Android manual Installation
 
-**NOTE: To use a specific `play-service-gcm` version:**
+**NOTE: To use a specific `play-service-gcm` or `firebase-messaging` version:**
 
 In your `android/build.gradle`
 ```gradle
 ext {
     googlePlayServicesVersion = "<Your play services version>" // default: "+"
-
+    firebaseVersion = "<Your Firebase version>" // default: "+"
     // Other settings
     compileSdkVersion = "<Your compile SDK version>" // default: 23
     buildToolsVersion = "<Your build tools version>" // default: "23.0.1"
@@ -44,15 +44,20 @@ ext {
 In your `AndroidManifest.xml`
 ```xml
     .....
+    <!-- <Only if you're using GCM> -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <permission
         android:name="${applicationId}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+    <!-- </Only if you're using GCM> -->
+
+
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application ....>
+    <!-- <Only if you're using GCM> -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -62,11 +67,16 @@ In your `AndroidManifest.xml`
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-
+    <!-- </Only if you're using GCM> -->
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
             <intent-filter>
+            <!-- <Only if you're using GCM> -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            <!-- </Only if you're using GCM> -->
+            <!-- <Else> -->
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            <!-- </Else> -->
             </intent-filter>
         </receiver>
         <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
@@ -137,8 +147,8 @@ PushNotification.configure({
         notification.finish(PushNotificationIOS.FetchResult.NoData);
     },
 
-    // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications)
-    senderID: "YOUR GCM SENDER ID",
+    // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
+    senderID: "YOUR GCM (OR FCM) SENDER ID",
 
     // IOS ONLY (optional): default: all - Permissions to register.
     permissions: {
@@ -266,7 +276,7 @@ For iOS, the repeating notification should land soon. It has already been merged
 Two things are required to setup notification actions.
 
 ### 1) Specify notification actions for a notification
-This is done by specifying an `actions` parameters while configuring the local notification. This is an array of strings where each string is a notificaiton action that will be presented with the notification.
+This is done by specifying an `actions` parameters while configuring the local notification. This is an array of strings where each string is a notification action that will be presented with the notification.
 
 For e.g. `actions: '["Accept", "Reject"]'  // Must be in string format`
 
@@ -306,6 +316,11 @@ Uses the [ShortcutBadger](https://github.com/leolin310148/ShortcutBadger) on And
 
 ## Sending Notification Data From Server
 Same parameters as `PushNotification.localNotification()`
+
+## Android Only Methods
+
+`PushNotification.subscribeToTopic(topic: string)` Subscribe to a topic (works only with Firebase)
+
 
 ## iOS Only Methods
 `PushNotification.checkPermissions(callback: Function)` Check permissions
