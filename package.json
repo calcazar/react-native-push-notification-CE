@@ -17,11 +17,11 @@
     "gcm"
   ],
   "bugs": {
-    "url": "https://github.com/zo0r/react-native-push-notification/issues"
+    "url": "https://github.com/calcazar/react-native-push-notification-CE/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:zo0r/react-native-push-notification.git"
+    "url": "git+ssh://git@github.com:calcazar/react-native-push-notification-CE.git"
   },
   "peerDependencies": {
     "react-native": ">=0.33"
@@ -31,6 +31,6 @@
       "packageInstance": "new ReactNativePushNotificationPackage()"
     }
   },
-  "author": "zo0r <http://zo0r.me>",
+  "author": "Calcazar | zo0r <http://zo0r.me>",
   "license": "MIT"
 }
