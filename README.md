@@ -5,7 +5,7 @@ This Library was cloned from the original @Zo0r/react-native-push-notification. 
 ## Thank you Zo0r for all of your hard work in creating this awesome library
 
 ## Installation
-`npm install --save react-native-push-notification` or `yarn add react-native-push-notification`
+`npm install --save react-native-push-notification-ce` or `yarn add react-native-push-notification-ce`
 
 `react-native link`
 
@@ -95,8 +95,8 @@ In `android/settings.gradle`
 ```gradle
 ...
 
-include ':react-native-push-notification'
-project(':react-native-push-notification').projectDir = file('../node_modules/react-native-push-notification/android')
+include ':react-native-push-notification-ce'
+project(':react-native-push-notification-ce').projectDir = file('../node_modules/react-native-push-notification-ce/android')
 ```
 
 Manually register module in `MainApplication.java` (if you did not use `react-native link`):
@@ -128,7 +128,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 ## Usage
 ```javascript
-var PushNotification = require('react-native-push-notification');
+var PushNotification = require('react-native-push-notification-ce');
 
 PushNotification.configure({
 
@@ -286,7 +286,7 @@ The array itself is specified in string format to circumvent some problems becau
 For each action specified in the `actions` field, we need to add a handler that is called when the user clicks on the action. This can be done in the `componentWillMount` of your main app file or in a separate file which is imported in your main app file. Notification actions handlers can be configured as below:
 
 ```
-import PushNotificationAndroid from 'react-native-push-notification'
+import PushNotificationAndroid from 'react-native-push-notification-ce'
 
 (function() {
   // Register all the valid actions for notifications here and add the action handler for each action
