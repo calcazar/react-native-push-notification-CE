@@ -321,7 +321,13 @@ Same parameters as `PushNotification.localNotification()`
 
 `PushNotification.subscribeToTopic(topic: string)` Subscribe to a topic (works only with Firebase)
 
-
+## Checking Notification Permissions
+`PushNotification.checkPermissions(callback: Function)` Check permissions
+`callback` will be invoked with a `permissions` object:
+ `alert`: boolean
+ `badge`: boolean
+ `sound`: boolean
+ 
 ## iOS Only Methods
 `PushNotification.checkPermissions(callback: Function)` Check permissions
 

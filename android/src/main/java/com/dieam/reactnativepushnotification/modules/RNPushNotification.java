@@ -20,6 +20,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import android.support.v4.app.NotificationManagerCompat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +106,13 @@ public class RNPushNotification extends ReactContextBaseJavaModule implements Ac
                 manager.cancel(notificationID);
             }
         }, intentFilter);
+    }
+
+    @ReactMethod
+    public void checkPermissions(Promise promise) {
+        ReactContext reactContext = getReactApplicationContext();
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(reactContext);
+        promise.resolve(managerCompat.areNotificationsEnabled());
     }
 
     @ReactMethod
