@@ -84,7 +84,12 @@ In your `AndroidManifest.xml`
             android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
             android:exported="false" >
             <intent-filter>
+            <!-- <Only if you're using GCM> -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            <!-- </Only if you're using GCM> -->
+            <!-- <Else> -->
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            <!-- </Else> -->
             </intent-filter>
         </service>
      .....
@@ -327,7 +332,7 @@ Same parameters as `PushNotification.localNotification()`
  `alert`: boolean
  `badge`: boolean
  `sound`: boolean
- 
+
 ## iOS Only Methods
 `PushNotification.checkPermissions(callback: Function)` Check permissions
 
