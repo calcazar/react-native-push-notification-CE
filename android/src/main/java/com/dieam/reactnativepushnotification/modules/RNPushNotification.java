@@ -61,9 +61,18 @@ public class RNPushNotification extends ReactContextBaseJavaModule implements Ac
         return constants;
     }
 
+        private Bundle getNotificationBundle(Intent intent) {
+            if (intent.hasExtra("notification")) {
+                return intent.getBundleExtra("notification");
+            } else if (intent.hasExtra("google.message_id")) {
+                return intent.getExtras();
+            }
+              return null;
+        }
+
     public void onNewIntent(Intent intent) {
-        if (intent.hasExtra("notification")) {
-            Bundle bundle = intent.getBundleExtra("notification");
+        Bundle bundle = getNotificationBundle(intent);
+        if (bundle != null) {
             bundle.putBoolean("foreground", false);
             intent.putExtra("notification", bundle);
             mJsDelivery.notifyNotification(bundle);
@@ -152,9 +161,10 @@ public class RNPushNotification extends ReactContextBaseJavaModule implements Ac
     public void getInitialNotification(Promise promise) {
         WritableMap params = Arguments.createMap();
         Activity activity = getCurrentActivity();
+       
         if (activity != null) {
             Intent intent = activity.getIntent();
-            Bundle bundle = intent.getBundleExtra("notification");
+            Bundle bundle = getNotificationBundle(intent);
             if (bundle != null) {
                 bundle.putBoolean("foreground", false);
                 String bundleString = mJsDelivery.convertJSON(bundle);
