@@ -88,21 +88,23 @@ Notifications.configure = function(options: Object) {
 		this.isLoaded = true;
 	}
 
-	if ( this.hasPoppedInitialNotification === false &&
-			( options.popInitialNotification === undefined || options.popInitialNotification === true ) ) {
-		this.popInitialNotification(function(firstNotification) {
+	if ( options.requestPermissions !== false ) {
+		this._requestPermissions();
+	}
+
+};
+
+Notifications.appStart = function() {
+	if (this.hasPoppedInitialNotification === false &&
+			( this.popInitialNotification === undefined || this.popInitialNotification === true ) ) {
+		this.showInitialNotification(function(firstNotification) {
 			if ( firstNotification !== null ) {
 				this._onNotification(firstNotification, true);
 			}
 		}.bind(this));
 		this.hasPoppedInitialNotification = true;
 	}
-
-	if ( options.requestPermissions !== false ) {
-		this._requestPermissions();
-	}
-
-};
+}
 
 /* Unregister */
 Notifications.unregister = function() {
