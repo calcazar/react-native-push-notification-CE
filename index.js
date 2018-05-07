@@ -46,6 +46,7 @@ Notifications.callNative = function(name: String, params: Array) {
  * Configure local and remote notifications
  * @param {Object}		options
  * @param {function}	options.onRegister - Fired when the user registers for remote notifications.
+ * @param {function}	options.appStart - Used to tell RNPN when your app has started to pop the initial notification
  * @param {function}	options.onNotification - Fired when a remote notification is received.
  * @param {function} 	options.onError - None
  * @param {Object}		options.permissions - Permissions list
