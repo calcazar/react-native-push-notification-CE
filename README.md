@@ -175,7 +175,7 @@ PushNotification.configure({
 });
 ```
 
-On your root react component make sure to call:
+On your root react component in the componentDidMount lifecycle make sure to call:
 
 ```
 PushNotification.appStart() // Tells the bridge when the app has started so it can display tapped notifications
