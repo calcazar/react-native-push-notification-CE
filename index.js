@@ -306,7 +306,7 @@ Notifications.getApplicationIconBadgeNumber = function() {
 	return this.callNative('getApplicationIconBadgeNumber', arguments);
 };
 
-Notifications.popInitialNotification = function(handler) {
+Notifications.showInitialNotification = function(handler) {
 	this.callNative('getInitialNotification').then(function(result){
 		handler(result);
 	});
