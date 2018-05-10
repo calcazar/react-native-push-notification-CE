@@ -162,7 +162,7 @@ PushNotification.configure({
         sound: true
     },
 
-    // Should the initial notification be popped automatically
+    // Should the initial notification be popped when appStart() gets called
     // default: true
     popInitialNotification: true,
 
@@ -173,6 +173,12 @@ PushNotification.configure({
       */
     requestPermissions: true,
 });
+```
+
+On your root react component make sure to call:
+
+```
+PushNotification.appStart() // Tells the bridge when the app has started so it can display tapped notifications
 ```
 
 ## Handling Notifications
