@@ -71,12 +71,7 @@ In your `AndroidManifest.xml`
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
             <intent-filter>
-            <!-- <Only if you're using GCM> -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-            <!-- </Only if you're using GCM> -->
-            <!-- <Else> -->
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            <!-- </Else> -->
             </intent-filter>
         </receiver>
         <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
