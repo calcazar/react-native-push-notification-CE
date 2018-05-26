@@ -54,7 +54,6 @@ dependencies {
     compile 'com.facebook.react:react-native:+'
     compile "com.google.firebase:firebase-messaging:$firebaseVersion"
 
-
     compile "com.google.android.gms:play-services-gcm:$googlePlayServicesVersion"
-    compile 'me.leolin:ShortcutBadger:1.1.8@aar'
+    compile "me.leolin:ShortcutBadger:1.1.21@aar"
 }
