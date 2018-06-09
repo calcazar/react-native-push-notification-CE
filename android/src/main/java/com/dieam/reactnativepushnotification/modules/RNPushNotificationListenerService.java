@@ -121,9 +121,12 @@ public class RNPushNotificationListenerService extends FirebaseMessagingService 
 
         Log.v(LOG_TAG, "sendNotification: " + bundle);
 
-        Application applicationContext = (Application) context.getApplicationContext();
-        RNPushNotificationHelper pushNotificationHelper = new RNPushNotificationHelper(applicationContext);
-        pushNotificationHelper.sendToNotificationCentre(bundle);
+        String message = bundle.getString("message");
+        if ((message != null && !message.isEmpty()) || !bundle.containsKey("content-available")) {
+            Application applicationContext = (Application) context.getApplicationContext();
+            RNPushNotificationHelper pushNotificationHelper = new RNPushNotificationHelper(applicationContext);
+            pushNotificationHelper.sendToNotificationCentre(bundle);
+        }
     }
 
     private boolean isApplicationInForeground() {
