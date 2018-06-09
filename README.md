@@ -9,7 +9,7 @@ This Library was cloned from the original @Zo0r/react-native-push-notification. 
 
 `react-native link`
 
-**NOTE: For Android, you will still have to manually update the AndroidManifest.xml (as below) in order to use Scheduled Notifications.**
+**NOTE: For Android, you will still have to manually update the AndroidManifest.xml (as below) in order to use Scheduled Notifications. Also make sure you are using compileSdkVersion 26 or above.**
 
 ## Issues
 
@@ -34,7 +34,7 @@ ext {
     googlePlayServicesVersion = "<Your play services version>" // default: "+"
     firebaseVersion = "<Your Firebase version>" // default: "+"
     // Other settings
-    compileSdkVersion = "<Your compile SDK version>" // default: 23
+    compileSdkVersion = "<Your compile SDK version>" // default: 26
     buildToolsVersion = "<Your build tools version>" // default: "23.0.1"
     targetSdkVersion = "<Your target SDK version>" // default: 23
     supportLibVersion = "<Your support lib version>" // default: 23.1.1
