@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static com.dieam.reactnativepushnotification.modules.RNPushNotification.LOG_TAG;
 import static com.dieam.reactnativepushnotification.modules.RNPushNotificationAttributes.fromJson;
@@ -36,7 +37,7 @@ public class RNPushNotificationHelper {
     public static final String PREFERENCES_KEY = "rn_push_notification";
     private static final long DEFAULT_VIBRATION = 300L;
     private static final String NOTIFICATION_CHANNEL_ID = "rn-push-notification-channel-id";
-    
+
     private Context context;
     private final SharedPreferences scheduledNotificationsPersistence;
     private static final int ONE_MINUTE = 60 * 1000;
@@ -130,7 +131,42 @@ public class RNPushNotificationHelper {
         }
     }
 
-    public void sendToNotificationCentre(Bundle bundle) {
+    public void sendToNotificationCentre(final Bundle bundle) {
+        String imageUrl = bundle.getString("imageUrl");
+        String iconImageUrl = bundle.getString("iconImageUrl");
+
+        if (imageUrl == null && iconImageUrl == null) {
+            sendNotificationWithImage(bundle, null, null);
+            return;
+        }
+
+        RNPushNotificationImageFetcher fetcher = new RNPushNotificationImageFetcher(
+            context,
+            new RNPushNotificationImageFetcher.RNPushNotificationImageFetcherListener() {
+                public void onComplete(Map<String, Bitmap> images) {
+                    Bitmap largeImage = null, iconImage = null;
+                    for (String uri : images.keySet()) {
+                        if (uri == bundle.getString("imageUrl")) {
+                            largeImage = images.get(uri);
+                        } else {
+                            iconImage = images.get(uri);
+                        }
+                    }
+
+                    sendNotificationWithImage(bundle, iconImage, largeImage);
+                }
+            }
+        );
+        if (imageUrl != null) {
+            fetcher.addImage(imageUrl);
+        }
+        if (iconImageUrl != null) {
+            fetcher.addImage(iconImageUrl);
+        }
+        fetcher.fetch();
+    }
+
+    public void sendNotificationWithImage(Bundle bundle, Bitmap iconImage, Bitmap largeImage) {
         try {
             Class intentClass = getMainActivityClass();
             if (intentClass == null) {
@@ -154,6 +190,7 @@ public class RNPushNotificationHelper {
             String packageName = context.getPackageName();
 
             String title = bundle.getString("title");
+            String message = bundle.getString("message");
             if (title == null) {
                 ApplicationInfo appInfo = context.getApplicationInfo();
                 title = context.getPackageManager().getApplicationLabel(appInfo).toString();
@@ -171,7 +208,7 @@ public class RNPushNotificationHelper {
                 notification.setGroup(group);
             }
 
-            notification.setContentText(bundle.getString("message"));
+            notification.setContentText(message);
 
             String largeIcon = bundle.getString("largeIcon");
 
@@ -187,7 +224,7 @@ public class RNPushNotificationHelper {
             }
 
             int smallIconResId;
-            int largeIconResId;
+            int largeIconResId = 0;
 
             String smallIcon = bundle.getString("smallIcon");
 
@@ -205,15 +242,19 @@ public class RNPushNotificationHelper {
                 }
             }
 
-            if (largeIcon != null) {
-                largeIconResId = res.getIdentifier(largeIcon, "mipmap", packageName);
+            Bitmap largeIconBitmap;
+            if (iconImage != null) {
+                largeIconBitmap = iconImage;
             } else {
-                largeIconResId = res.getIdentifier("ic_launcher", "mipmap", packageName);
+                if (largeIcon != null) {
+                    largeIconResId = res.getIdentifier(largeIcon, "mipmap", packageName);
+                } else {
+                    largeIconResId = res.getIdentifier("ic_launcher", "mipmap", packageName);
+                }
+                largeIconBitmap = BitmapFactory.decodeResource(res, largeIconResId);
             }
 
-            Bitmap largeIconBitmap = BitmapFactory.decodeResource(res, largeIconResId);
-
-            if (largeIconResId != 0 && (largeIcon != null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)) {
+            if (largeIconBitmap != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 notification.setLargeIcon(largeIconBitmap);
             }
 
@@ -221,10 +262,19 @@ public class RNPushNotificationHelper {
             String bigText = bundle.getString("bigText");
 
             if (bigText == null) {
-                bigText = bundle.getString("message");
+                bigText = message;
             }
 
-            notification.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+            if (largeImage != null) {
+                notification.setStyle(
+                        new NotificationCompat.BigPictureStyle()
+                                .bigPicture(largeImage)
+                                .setBigContentTitle(title)
+                                .setSummaryText(message)
+                );
+            } else {
+                notification.setStyle(new NotificationCompat.BigTextStyle().bigText(bigText));
+            }
 
             Intent intent = new Intent(context, intentClass);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
