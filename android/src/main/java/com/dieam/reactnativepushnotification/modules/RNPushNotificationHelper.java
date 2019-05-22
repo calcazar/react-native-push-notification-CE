@@ -37,6 +37,7 @@ public class RNPushNotificationHelper {
     public static final String PREFERENCES_KEY = "rn_push_notification";
     private static final long DEFAULT_VIBRATION = 300L;
     private static final String NOTIFICATION_CHANNEL_ID = "rn-push-notification-channel-id";
+    private static final String NOTIFICATION_CHANNEL_NAME = "rn-push-notification-channel"
 
     private Context context;
     private final SharedPreferences scheduledNotificationsPersistence;
@@ -325,6 +326,20 @@ public class RNPushNotificationHelper {
 
             NotificationManager notificationManager = notificationManager();
             checkOrCreateChannel(notificationManager);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+
+                NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, importance);
+                notificationChannel.enableLights(true);
+                notificationChannel.setLightColor(Color.RED);
+                notificationChannel.enableVibration(true);
+                notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                notification.setChannelId(NOTIFICATION_CHANNEL_ID);
+                notificationManager.createNotificationChannel(notificationChannel);
+            } else {
+                checkOrCreateChannel(notificationManager);
+            }
 
             notification.setContentIntent(pendingIntent);
 

@@ -56,4 +56,5 @@ dependencies {
 
     compile "com.google.android.gms:play-services-gcm:$googlePlayServicesVersion"
     compile "me.leolin:ShortcutBadger:1.1.21@aar"
+    compile 'com.android.support:appcompat-v7:26.0.+'
 }
