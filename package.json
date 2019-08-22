@@ -33,5 +33,8 @@
     }
   },
   "author": "Calcazar | zo0r <http://zo0r.me>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@react-native-community/push-notification-ios": "^1.0.2"
+  }
 }
